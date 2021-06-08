@@ -20,8 +20,8 @@ import copy
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-Minus_ID_number = 245461326
-Avet_ID_number = 706549700
+Minus_ID_number = int(245461326)
+Avet_ID_number = int(706540700)
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -64,15 +64,30 @@ def Wrong_ID(update):
     print(update.message.text)
     print("---------------------")
     Chat_Number = int(update.message.chat.id)
+    Chat_Name = str(update.message.chat.first_name) +" "+ str(update.message.chat.last_name)
     Echo = update
     Echo.message.chat.id = Minus_ID_number
-    Echo_Answer = "Unidentified message from: \n" +str(Chat_Number) + "\n \n" + str(update.message.text)
+    Echo_Answer = "Unidentified message from: \n" + Chat_Name+ "\n"+ str(Chat_Number) + "\n \n" + str(update.message.text)
     Echo.message.reply_text(Echo_Answer)
 
 def ID_Selection(update,context):
-    if update.message.chat.id == Avet_ID_number: return(Avet_ID(update))
-    elif update.message.chat.id == Minus_ID_number: return(Minus_ID(update))
-    else: return(Wrong_ID(update))
+    if int(update.message.chat.id) == Avet_ID_number:
+        print('Avet Talking')
+        print(Avet_ID_number)
+        print(update.message.chat)
+        return(Avet_ID(update))
+
+    elif int(update.message.chat.id) == Minus_ID_number:
+        print('Martí Talking')
+        print(Minus_ID_number)
+        print(update.message.chat)
+        return(Minus_ID(update))
+
+    else:
+        print('Somebody Talking')
+        print(Avet_ID_number)
+        print(update.message.chat)
+        return(Wrong_ID(update))
 
 def Set_ID(update, context):
     New_ID = update.message.text
@@ -81,7 +96,7 @@ def Set_ID(update, context):
         Answer = ("New Avet ID: " + str(New_ID))
         print(Answer)
         global Avet_ID_number
-        Avet_ID_number = New_ID
+        Avet_ID_number = int(New_ID)
         update.message.reply_text(Answer)
     else:
         Answer = ("Wrong ID Format")
