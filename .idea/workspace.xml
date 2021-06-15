@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="94ab0c8e-4570-40a8-959b-8164fda4aaa9" name="Default Changelist" comment="K">
+    <list default="true" id="94ab0c8e-4570-40a8-959b-8164fda4aaa9" name="Default Changelist" comment="Updated the chat ID Change subroutine">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FilipinaBot.py" beforeDir="false" afterPath="$PROJECT_DIR$/FilipinaBot.py" afterDir="false" />
     </list>
@@ -71,7 +71,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622905256138</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updated the chat ID Change subroutine">
+      <created>1623147367759</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1623147367759</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -84,9 +91,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="K" />
-    <option name="LAST_COMMIT_MESSAGE" value="K" />
+    <MESSAGE value="Updated the chat ID Change subroutine" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the chat ID Change subroutine" />
   </component>
 </project>

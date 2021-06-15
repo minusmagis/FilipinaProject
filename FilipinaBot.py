@@ -21,7 +21,7 @@ import copy
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 Minus_ID_number = int(245461326)
-Avet_ID_number = int(706540700)
+Avet_ID_number = int(345461326)
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -35,6 +35,18 @@ logger = logging.getLogger(__name__)
 def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text('Ah, hola, quien eres?')
+    print("------- Start Message --------")
+    print(update.message.chat)
+    print(update.message.text)
+    print("---------------------")
+    Chat_Number = int(update.message.chat.id)
+    Chat_Name = str(update.message.chat.first_name) +" "+ str(update.message.chat.last_name)
+    Echo = update
+    Echo.message.chat.id = Minus_ID_number
+    Echo_Answer = "Unidentified message from: \n" + Chat_Name+ "\n"+ str(Chat_Number) + "\n \n" + 'Is trying to start talking'
+    Echo.message.reply_text(Echo_Answer)
+
+
 
 
 def Minus_ID(update):
@@ -42,10 +54,17 @@ def Minus_ID(update):
     print("------- New Message --------")
     print(update.message.chat)
     print(update.message.text)
+    #print(*update.message.photo, sep = "\n")
     print("---------------------")
     Echo = update
     Echo.message.chat.id = Avet_ID_number
-    Echo.message.reply_text(update.message.text)
+
+    if len(update.message.photo) < 1:
+        Echo.message.reply_text(update.message.text)
+
+    else:
+        print("Picture")
+        Echo.message.reply_photo(update.message.photo[-1].file_id)
 
 def Avet_ID(update):
     """Echo the user message."""
@@ -55,7 +74,13 @@ def Avet_ID(update):
     print("---------------------")
     Echo = update
     Echo.message.chat.id = Minus_ID_number
-    Echo.message.reply_text(update.message.text)
+    if len(update.message.photo) < 1:
+        Echo.message.reply_text(update.message.text)
+
+    else:
+        print("Picture")
+        Echo.message.reply_photo(update.message.photo[-1].file_id)
+
 
 def Wrong_ID(update):
     """Echo the user message."""
@@ -68,7 +93,12 @@ def Wrong_ID(update):
     Echo = update
     Echo.message.chat.id = Minus_ID_number
     Echo_Answer = "Unidentified message from: \n" + Chat_Name+ "\n"+ str(Chat_Number) + "\n \n" + str(update.message.text)
-    Echo.message.reply_text(Echo_Answer)
+    if len(update.message.photo) < 1:
+        Echo.message.reply_text(Echo_Answer)
+
+    else:
+        Echo.message.reply_text(Echo_Answer)
+        Echo.message.reply_photo(update.message.photo[-1].file_id)
 
 def ID_Selection(update,context):
     if int(update.message.chat.id) == Avet_ID_number:
@@ -92,7 +122,7 @@ def ID_Selection(update,context):
 def Set_ID(update, context):
     New_ID = update.message.text
     New_ID = New_ID.replace("/Set_ID ","")
-    if len(New_ID) == 9:
+    if len(New_ID) > 7:
         Answer = ("New Avet ID: " + str(New_ID))
         print(Answer)
         global Avet_ID_number
@@ -114,6 +144,9 @@ def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
+def Echo_Cannot_Understand(update, context):
+    update.message.reply_text('Lo siento pero de momento solo entiendo texto e imagenes, si me envias audios o stickers no puedo entenderte :(')
+    print('Tried to send something other than text or picture')
 
 def main():
     """Start the bot."""
@@ -131,7 +164,8 @@ def main():
     dp.add_handler(CommandHandler("Get_ID", Get_ID))
 
     # on noncommand i.e message - echo the message on Telegram
-    dp.add_handler(MessageHandler(Filters.text, ID_Selection))
+    dp.add_handler(MessageHandler(Filters.text | Filters.photo, ID_Selection))
+    dp.add_handler(MessageHandler(~Filters.text & ~ Filters.photo & ~ Filters.command, Echo_Cannot_Understand))
 
 
     # log all errors
